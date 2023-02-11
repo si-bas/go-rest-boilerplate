@@ -28,12 +28,14 @@ func (h *Handler) GetToken(c *gin.Context) {
 	if err != nil {
 		logger.Warn(ctx, fmt.Sprintf("invalid password user: %s", payload.Email), tag.Err(err))
 		c.JSON(result.APIStatusInvalidAuthentication().StatusCode, result.SetError(response.ErrUnauthorized, err.Error()))
+		return
 	}
 
 	jwtToken, err := h.authService.GenerateToken(ctx, user)
 	if err != nil {
 		logger.Warn(ctx, "failed generate jwt token", tag.Err(err))
 		c.JSON(result.APIInternalServerError().StatusCode, result.SetError(response.ErrInternalServerError, err.Error()))
+		return
 	}
 
 	c.JSON(result.APIStatusSuccess().StatusCode, result.SetData(jwtToken))
