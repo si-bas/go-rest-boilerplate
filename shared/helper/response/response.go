@@ -149,7 +149,7 @@ func getErrType(err error) error {
 
 func (r *JSONResponse) SetError(err error, a ...string) *JSONResponse {
 	r.Code = GetErrorCode(err)
-	r.SetLog("error", err)
+	// r.SetLog("error", err)
 	r.RealError = fmt.Sprintf("%+v", err)
 	err = getErrType(err)
 	r.Error = err
